@@ -1,0 +1,69 @@
+- name: Encode username and password and create variable to pass to the API gateway task.
+  shell: "echo  {{ (aiqumuser + ':' + aiqumpassword) | b64encode }}"
+  delegate_to: localhost
+  register: auth_token
+  tags:
+    - encode_auth_token
+    - intersight_claim_static
+
+- name: Enable the API gateway feature in AIQUM.
+  no_log: true
+  uri:
+    url: "https://{{aiqum_ipaddress}}/api/management-server/admin/options"
+    validate_certs: false
+    user: '{{ aiqumuser }}'
+    password: '{{ aiqumpassword }}'
+    method: POST
+    body: "{\"options\": [{\"name\": \"api.gateway.enabled\",\"value\": true}]}"
+    status_code: 204
+    headers:
+      Content-Type: "application/vnd.netapp.v1.hal+json"
+      authorization: Basic {{ auth_token.stdout }}
+  tags:
+    - enable_api_gateway
+    - intersight_claim_static
+
+- name: Query Intersight to retrieve Assist info to grab Moid to pass along to the claim task.
+  no_log: true
+  cisco.intersight.intersight_rest_api:
+    api_private_key: "{{ cisco_key }}"
+    api_key_id: "{{ api_key_id }}"  
+    api_uri: "{{ api_uri }}" 
+    resource_path: /asset/Targets
+    query_params:
+      $filter: "Name eq '{{ assist_name }}'" 
+  register: org_resp
+  delegate_to: localhost
+  tags:
+    - intersight_claim_static
+
+- name: Claim AIQUM into Cisco Intersight.
+  no_log: true
+  cisco.intersight.intersight_rest_api:
+    api_private_key: "{{ cisco_key }}"
+    api_key_id: "{{ api_key_id }}"  
+    api_uri: "{{ api_uri }}" 
+    resource_path: /asset/Targets
+    api_body:
+      Account: "{{ org_resp.api_response.AccountMoid }}" 
+      Assist:
+        Moid: "{{ org_resp.api_response.Moid }}"
+        ObjectType: asset.Target
+      Connections:
+        - Credential:
+            ObjectType: asset.UsernamePasswordCredential
+            Username: "{{ aiqumuser }}"
+            Password: "{{ aiqumpassword }}"
+          IsSecure: true
+          ManagementAddress: "{{ aiqum_ipaddress }}"
+          ObjectType: asset.HttpConnection
+      Name: '{{ aiqum_vm_name }}.{{ domain_name }}'
+      Services:
+        - ObjectType: asset.WorkloadOptimizerService
+      TargetType: NetAppActiveIqUnifiedManager
+    update_method: post
+  delegate_to: localhost
+  run_once: true
+  tags:
+    - intersight_claim_static
+    - intersight_claim_static_claim

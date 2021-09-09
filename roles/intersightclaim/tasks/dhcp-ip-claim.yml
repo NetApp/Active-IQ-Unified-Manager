@@ -1,0 +1,94 @@
+- name: Gather some info from a guest using the vSphere API output schema for a guest installed with a DHCP IP.
+  no_log: true
+  community.vmware.vmware_guest_info:
+    hostname: "{{ vc_hostname }}"
+    username: "{{ vc_username }}"
+    password: "{{ vc_password }}"
+    name: "{{ aiqum_vm_name }}"
+    datacenter: "{{ datacenter_name }}"
+    validate_certs: no
+    schema: "vsphere"
+    properties: ["guest.ipAddress"]
+  register: guest_ip
+  delegate_to: localhost
+  when: deploy_ipAddres is not defined
+  tags:
+    - get_vm_properties
+    - get_vm_ip
+    - intersight_claim_dhcp
+
+- name: Set dhcp_ip variable to be used for later tasks
+  set_fact:
+    dhcp_ip: "{{guest_ip.instance.guest.ipAddress}}"
+  tags:
+    - get_vm_ip
+    - intersight_claim_dhcp
+
+- name: Encode username and password and create variable to pass to the API gateway task
+  shell: "echo  {{ (aiqumuser + ':' + aiqumpassword) | b64encode }}"
+  delegate_to: localhost
+  register: auth_token
+  tags:
+    - encode_auth_token
+    - intersight_claim_dhcp
+
+- name: Enable the API gateway feature in AIQUM that was installed with a DHCP IP.
+  no_log: true
+  uri:
+    url: "https://{{dhcp_ip}}/api/management-server/admin/options"
+    validate_certs: false
+    user: '{{ aiqumuser }}'
+    password: '{{ aiqumpassword }}'
+    method: POST
+    body: "{\"options\": [{\"name\": \"api.gateway.enabled\",\"value\": true}]}"
+    status_code: 204
+    headers:
+      Content-Type: "application/vnd.netapp.v1.hal+json"
+      authorization: Basic {{ auth_token.stdout }}
+  tags:
+    - enable_api_gateway
+    - intersight_claim_dhcp
+
+- name: Query Intersight to retrieve Assist info to grab Moid to pass along to the claim task.
+  no_log: true
+  cisco.intersight.intersight_rest_api:
+    api_private_key: "{{ cisco_key }}"
+    api_key_id: "{{ api_key_id }}"  
+    api_uri: "{{ api_uri }}" 
+    resource_path: /asset/Targets
+    query_params:
+      $filter: "Name eq '{{ assist_name }}'"
+  register: org_resp
+  delegate_to: localhost
+  tags:
+    - intersight_claim_dhcp
+
+- name: Claim AIQUM into Cisco Intersight that was installed with a DHCP IP.
+  no_log: true
+  cisco.intersight.intersight_rest_api:
+    api_private_key: "{{ cisco_key }}"
+    api_key_id: "{{ api_key_id }}"  
+    api_uri: "{{ api_uri }}" 
+    resource_path: /asset/Targets
+    api_body:
+      Account: "{{ org_resp.api_response.AccountMoid }}" 
+      Assist:
+        Moid: "{{ org_resp.api_response.Moid }}"
+        ObjectType: asset.Target
+      Connections:
+        - Credential:
+            ObjectType: asset.UsernamePasswordCredential
+            Username: "{{ aiqumuser }}"
+            Password: "{{ aiqumpassword }}"
+          IsSecure: true
+          ManagementAddress: "{{ dhcp_ip }}"
+          ObjectType: asset.HttpConnection
+      Name: '{{ aiqum_vm_name }}.{{ domain_name }}'
+      Services:
+        - ObjectType: asset.WorkloadOptimizerService
+      TargetType: NetAppActiveIqUnifiedManager
+    update_method: post
+  delegate_to: localhost
+  run_once: true
+  tags:
+    - intersight_claim_dhcp

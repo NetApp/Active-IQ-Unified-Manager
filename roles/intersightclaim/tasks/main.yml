@@ -1,0 +1,8 @@
+- name: Runs Cisco Intersight tasks for Static IP
+  import_tasks: static-ip-claim.yml
+  when: ip_scheme == "static"
+
+- name: Runs Cisco Intersight tasks for DHCP IP
+  import_tasks: dhcp-ip-claim.yml
+  when: ip_scheme == "dhcp"
+

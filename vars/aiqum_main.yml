@@ -1,0 +1,38 @@
+#Replace below values based on your environment you are deploying AIQUM into
+
+#VMware values 
+vm_network: "VM-Network" #Network portgroup for VM IP
+datacenter_name: 
+vc_cluster_name: 
+datastore_name: 
+aiqum_vm_name: 
+domain_name: 
+vc_hostname: 
+
+#Path to AIQUM OVA location. Change path location to the location of the AIQUM OVA you downloaded from the support site.
+#Ensure you have read access to the below file path.
+ovf_path: /path/to/ActiveIQUnifiedManager-9.8P1.ova
+
+#If deploying the AIQUM OVA with a static IP, set ip_scheme to 'static' and fill out the below section. If deploying with a DHCP IP then set ip_scheme to 'dhcp' and leave below section empty. 
+ip_scheme: 'static'
+
+#IPv4 Properties for static IP: 
+aiqum_gateway: 
+aiqum_ipaddress: 
+aiqum_netmask: 
+primaryDNS: 
+secondaryDNS: 
+
+#For timezone list see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones. Use TZ with Cononical as Status. Fill out for static and DHCP installs.
+TimeZone: 
+
+#ONTAP values
+ontap_cluster_address: 
+
+#Intersight Assist
+assist_name: 
+
+#Default values. Do not change
+aiqumport: "443" 
+cluster_port: "443"
+cluster_protocol: https

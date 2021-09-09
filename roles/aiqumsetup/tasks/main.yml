@@ -1,0 +1,8 @@
+- name: Runs AIQUM tasks for Static IP
+  import_tasks: static-ip-install.yml
+  when: ip_scheme == "static"
+
+- name: Runs AIQUM tasks for DHCP IP
+  import_tasks: dhcp-ip-install.yml
+  when: ip_scheme == "dhcp"
+

@@ -1,0 +1,5 @@
+#Info for claiming AIQUM into Cisco Intersight
+#Add info on how to get these values.
+cisco_key: ""  #Path to cisco key file
+api_key_id: 
+api_uri: "https://intersight.com/api/v1" #Default value. Do not change

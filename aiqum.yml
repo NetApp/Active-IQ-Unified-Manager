@@ -1,0 +1,29 @@
+---
+- name: Deploy an AIQUM from OVA and add an ONTAP cluster
+  hosts: localhost
+  gather_facts: False
+  vars_files:
+    - vars/aiqum_main.yml
+    - group_vars/ontap
+    - group_vars/vmware
+    - group_vars/aiqum
+  connection: local
+  roles:
+  - { role: aiqumsetup} 
+  tags:
+  - aiqum_setup
+
+
+- name: Claim AIQUM into Intersight
+  hosts: localhost
+  gather_facts: False
+  vars_files:
+    - vars/aiqum_main.yml
+    - group_vars/vmware
+    - group_vars/aiqum
+    - group_vars/intersight
+  connection: local
+  roles:
+  - { role: intersightclaim} 
+  tags:
+  - intersight_claim
