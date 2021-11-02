@@ -26,7 +26,7 @@
   tags:
     - deploy_ova_static_ip
 
-- name: Pause for 15 minutes for Network service to start.
+- name: You have 15 minutes to log into the VMWare console for this VM and to answer the timezone questions and to create the new admin user and password.
   pause:
     minutes: 15
   tags:

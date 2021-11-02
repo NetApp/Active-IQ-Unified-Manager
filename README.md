@@ -22,9 +22,10 @@ Ubuntu 20.04
 # Prerequisites
 1. It is assumed that the physical rack and stack and power-on, initialization of ONTAP OS, setup of node management IPs and initial ONTAP cluster with IP is completed.
 2. It is assumed a Cisco Intersight account is setup and configured to allow devices to be added to the account. See below section for how to obtain a Cisco Intersight key and code.
-3. It is assumed vCenter is in working order to deploy an OVA.
-4. The user should have an Ansible Control sever that has network reachability to the ONTAP cluster and internet access to pull this repository from GitHub. Refer to https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html for guidance on setting up and Ansible Control server.
-5. The Ansible control server should have the following collections, libraries and modules installed:
+3. It is assumed the Intersight Assist virtual appliance is installed and claimed to your Intersight account 
+4. It is assumed vCenter is in working order to deploy an OVA.
+5. The user should have an Ansible Control sever that has network reachability to the ONTAP cluster and internet access to pull this repository from GitHub. Refer to https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html for guidance on setting up and Ansible Control server.
+6. The Ansible control server should have the following collections, libraries and modules installed:
 
 ``` yaml
 ansible-galaxy collection install cisco.intersight
@@ -35,12 +36,15 @@ ansible-galaxy collection install netapp.ontap
 
 ```
 
-6. Create a .sh file to install any additional libraries and modules or run the commands individually
+7. Create a .sh file to install any additional libraries and modules or run the commands individually
 ``` yaml
 vi setup.sh
 ```
+Notes: \
+Change /etc/ansible to the directory your AIQUM playbook will be kept \
+Change username.usergroup to the user and group that will be setting up the ansible playbook 
 
-7a. Paste the below content into the file ( For CentOS 8 )
+8a. Paste the below content into the file ( For CentOS 8 )
 ``` yaml
 #!/bin/bash
 echo "Installing Python ------>"
@@ -70,7 +74,7 @@ wget https://raw.githubusercontent.com/NetApp/Ansible-with-Active-IQ-Unified-Man
 echo "copying aiqum_clusters.py file to /usr/share/ansible_modules/ ------>"
 sudo cp aiqum_clusters.py /usr/share/ansible_modules/
 ```
-7b. Paste the below content into the file ( For Ubuntu 20.04 )
+8b. Paste the below content into the file ( For Ubuntu 20.04 )
 ``` yaml
 #!/bin/bash
 echo "Installing Python3-pip ------>"
@@ -94,20 +98,17 @@ wget https://raw.githubusercontent.com/NetApp/Ansible-with-Active-IQ-Unified-Man
 echo "copying aiqum_clusters.py file to /usr/share/ansible_modules/ ------>"
 sudo cp aiqum_clusters.py /usr/share/ansible_modules/
 ```
-Notes: \
-Change /etc/ansible to the directory your AIQUM playbook will be kept \
-Change username.usergroup to the user that will be setting up the ansible playbook 
 
-8. Make the file executable
+9. Make the file executable
 ``` yaml
 chmod +x setup.sh
 ```
-9. Run the script
+10. Run the script
 ``` yaml
-sudo ./setup.sh
+./setup.sh
 ```
 
-10. Add the following line into your site ansible.cgf file
+11. Add the following line into your site ansible.cgf file
 ``` yaml
 library        = /usr/share/ansible_modules/
 ```
@@ -120,9 +121,9 @@ library        = /usr/share/ansible_modules/
 git clone https://github.com/NetApp-Automation/NetApp-AIQUM.git
 ```
 
-2. There is one variable file under the vars folder 'aiqum_main.yml ' that needs to be filled out with environment specific parameters prior to executing the playbook. 
+2. There is one variable file under the vars folder 'aiqum_main.yml ' that needs to be filled out with environment specific parameters prior to executing the playbook.
 
-NOTE: The format of the variable file needs to be maintained as it is, any changes to the structure of the file may lead to failure in execution of the playbook. 
+NOTE: The format of the variable file needs to be maintained as it is, any changes to the structure of the file may lead to failure in execution of the playbook.
 
 NOTE: Sample values are pre-populated against some variables in order to provide the user additional clarity on how the variable needs to be filled out. Please replace the sample values with your environment specific information
 
@@ -139,7 +140,7 @@ ontap_cluster_address: 192.168.10.10
 
 4. Executing the Playbook A playbook by name 'aiqum.yml' is available at the root of this repository. It calls all the required roles to complete the installation of AIQUM, adding a cluster to AIQUM and claiming AIQUM into Cisco Intersight. Execute the playbook from the Ansible Control server using the following command:
 
-NOTE: Add -vvv to the below command to get highest verbose output to assist in troubleshooting. 
+NOTE: Add -vvv to the below command to get highest verbose output to assist in troubleshooting.
 
 ``` y
 ansible-playbook aiqum.yml
@@ -171,5 +172,5 @@ Copy Secret Key and paste into a text file and use as path for “cisco_key” i
 
 
 # Author Information
-* Jason Walton (jason.walton@netapp.com) 
+* Jason Walton (jason.walton@netapp.com)
 
