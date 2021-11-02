@@ -1,4 +1,4 @@
-#Replace below values based on your environment you are deploying AIQUM into
+#Replace below values based on your environment you are deploying AIQUM into.
 
 #VMware values 
 vm_network: "VM-Network" #Network portgroup for VM IP
@@ -32,7 +32,7 @@ ontap_cluster_address:
 #Intersight Assist
 assist_name: 
 
-#Default values. Do not change
+#Default values. Do not change.
 aiqumport: "443" 
 cluster_port: "443"
 cluster_protocol: https

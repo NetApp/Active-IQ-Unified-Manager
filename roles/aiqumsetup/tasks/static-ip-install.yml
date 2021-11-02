@@ -22,33 +22,15 @@
              org.linuxdistx.NetworkMask: '{{ aiqum_netmask }}'
              org.linuxdistx.PrimaryDNS: '{{ primaryDNS }}'
              org.linuxdistx.SecondaryDNS: '{{ secondaryDNS }}'
-             org.linuxdistx.TimeZone: '{{ TimeZone }}'
-             org.linuxdistx.UserName: '{{ aiqumuser }}'
-             org.linuxdistx.UserPasswd: '{{ aiqumpassword }}'
-
   delegate_to: localhost
   tags:
     - deploy_ova_static_ip
 
-- name: Pause for 10 minutes for Network service to start.
+- name: Pause for 15 minutes for Network service to start.
   pause:
-    minutes: 10
+    minutes: 15
   tags:
     - deploy_ova_static_ip
-
-- name: Test SSH to ensure username and password has been set successfully. 
-  no_log: true
-  expect:
-    command: "ssh {{aiqumuser}}@'{{ aiqum_ipaddress }}'"
-    responses:
-      (.*)Are you sure you want to continue connecting(.*): "yes" 
-      (.*)password(.*): "{{aiqumpassword}}"
-      (.*)Enter your choice(.*): x
-    timeout: 30
-  register : sshResult
-  tags:
-    - deploy_ova_static_ip
-    - check_log_in
 
 - name: Add an ONTAP cluster to AIQUM.
   no_log: true
@@ -65,6 +47,8 @@
     cluster_port: '{{ cluster_port }}'
   retries: 10
   delay: 60
+  register: result
+  until: result is succeeded
   tags:
     - deploy_ova_static_ip
     - aiqum_cluster

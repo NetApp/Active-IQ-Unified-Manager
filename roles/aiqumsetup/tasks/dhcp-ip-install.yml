@@ -17,17 +17,13 @@
     inject_ovf_env: yes
     properties:
              org.linuxdistx.HostFQDN: '{{ aiqum_vm_name }}.{{ domain_name }}'
-             org.linuxdistx.TimeZone: '{{ TimeZone }}'
-             org.linuxdistx.UserName: '{{ aiqumuser }}'
-             org.linuxdistx.UserPasswd: '{{ aiqumpassword }}'
   delegate_to: localhost
   tags:
     - deploy_ova_dhcp_ip
 
-
-- name: Pause for 10 minutes for Network service to start and to obtain the DHCP IP.
+- name: Pause for 15 minutes for Network service to start and to obtain the DHCP IP.
   pause:
-    minutes: 10
+    minutes: 15
   tags:
     - deploy_ova_dhcp_ip
 
@@ -67,19 +63,6 @@
     - guest_facts
     - get_dhcp
 
-- name: Test SSH to ensure username and password has been set successfully.
-  expect:
-    command: "ssh {{aiqumuser}}@'{{ dhcp_ip }}'"
-    responses:
-      (.*)Are you sure you want to continue connecting(.*): "yes"
-      (.*)password(.*): "{{aiqumpassword}}"
-      (.*)Enter your choice(.*): x
-    timeout: 30
-  register : sshResult
-  tags:
-    - deploy_ova_dhcp_ip
-    - check_log_in
-
 - name: Add an ONTAP cluster to AIQUM for DHCP tasks.
   no_log: true
   aiqum_clusters:
@@ -95,6 +78,8 @@
     cluster_port: '{{ cluster_port }}'
   retries: 10
   delay: 60
+  register: result
+  until: result is succeeded
   tags:
     - deploy_ova_dhcp_ip
     - get_vm_properties
