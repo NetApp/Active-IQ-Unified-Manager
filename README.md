@@ -65,14 +65,6 @@ pip3 install --user pexpect
 echo "change owner and group of /etc/ansible ------>"
 sudo chown -R username.usergroup /etc/ansible/
 
-echo "creating /usr/share/ansible_modules directory for AIQUM modules ------>"
-sudo mkdir /usr/share/ansible_modules
-
-echo "Downloading AIQUM module ------>"
-wget https://raw.githubusercontent.com/NetApp/Ansible-with-Active-IQ-Unified-Manager/master/aiqum_modules/aiqum_clusters.py
-
-echo "copying aiqum_clusters.py file to /usr/share/ansible_modules/ ------>"
-sudo cp aiqum_clusters.py /usr/share/ansible_modules/
 ```
 8b. Paste the below content into the file ( For Ubuntu 20.04 )
 ``` yaml
@@ -89,14 +81,6 @@ pip3 install --user pexpect
 echo "echo Changing owner and group of /etc/ansible ------>"
 sudo chown -R username.usergroup /etc/ansible/
 
-echo "echo creating /usr/share/ansible_modules directory for AIQUM modules ------>"
-sudo mkdir /usr/share/ansible_modules/
-
-echo "Downloading AIQUM module ------>"
-wget https://raw.githubusercontent.com/NetApp/Ansible-with-Active-IQ-Unified-Manager/master/aiqum_modules/aiqum_clusters.py
-
-echo "copying aiqum_clusters.py file to /usr/share/ansible_modules/ ------>"
-sudo cp aiqum_clusters.py /usr/share/ansible_modules/
 ```
 
 9. Make the file executable
@@ -106,11 +90,6 @@ chmod +x setup.sh
 10. Run the script
 ``` yaml
 ./setup.sh
-```
-
-11. Add the following line into your site ansible.cgf file
-``` yaml
-library        = /usr/share/ansible_modules/
 ```
 
 # Getting Started

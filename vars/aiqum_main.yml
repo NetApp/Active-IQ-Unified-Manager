@@ -11,7 +11,7 @@ vc_hostname:
 
 #Path to AIQUM OVA location. Change path location to the location of the AIQUM OVA you downloaded from the support site.
 #Ensure you have read access to the below file path.
-ovf_path: /path/to/ActiveIQUnifiedManager-9.8P1.ova
+ovf_path: /path/to/ActiveIQUnifiedManager-9.10RC2.ova
 
 #If deploying the AIQUM OVA with a static IP, set ip_scheme to 'static' and fill out the below section. If deploying with a DHCP IP then set ip_scheme to 'dhcp' and leave below section empty. 
 ip_scheme: 'static'

@@ -17,15 +17,19 @@
     inject_ovf_env: yes
     properties:
              org.linuxdistx.HostFQDN: '{{ aiqum_vm_name }}.{{ domain_name }}'
+             org.linuxdistx.TimeZone: '{{ TimeZone }}'
+             org.linuxdistx.UserName: '{{ aiqumuser }}'
+             org.linuxdistx.UserPasswd: '{{ aiqumpassword }}'
   delegate_to: localhost
   tags:
     - deploy_ova_dhcp_ip
 
-- name: You have 15 minutes to log into the VMWare console for this VM and to answer the timezone questions and to create the new admin user and password.
+- name: Pausing for Network to start
   pause:
-    minutes: 15
+    minutes: 10
   tags:
-    - deploy_ova_dhcp_ip
+    - deploy_ova_static_ip
+
 
 - name: Get VM MAC address to gather DHCP IP in later tasks.
   no_log: true
@@ -63,24 +67,35 @@
     - guest_facts
     - get_dhcp
 
-- name: Add an ONTAP cluster to AIQUM for DHCP tasks.
+- name: Encode username and password and create variable to pass to the add ONTAP cluster task
   no_log: true
-  aiqum_clusters:
-    state: present
-    hostip: "{{ dhcp_ip }}"
-    port: '{{ aiqumport }}'
-    user: '{{ aiqumuser }}'
-    password: '{{ aiqumpassword }}'
-    cluster_address: '{{ ontap_cluster_address }}'
-    cluster_username: '{{ ontap_cluster_username }}'
-    cluster_password: '{{ ontap_cluster_password }}'
-    cluster_protocol: '{{ cluster_protocol }}'
-    cluster_port: '{{ cluster_port }}'
-  retries: 10
+  shell: "echo  {{ (aiqumuser + ':' + aiqumpassword) | b64encode }}"
+  delegate_to: localhost
+  register: auth_token_aiqum
+  tags:
+    - deploy_ova_dhcp_ip
+    - aiqum_cluster
+
+- name: Add an ONTAP cluster to AIQUM with API
+  no_log: true
+  uri:
+    url: "https://{{ dhcp_ip }}/api/admin/datasources/clusters"
+    validate_certs: false
+    method: POST
+    body_format: json
+    body:
+      address: '{{ ontap_cluster_address }}'
+      password: '{{ ontap_cluster_password }}'
+      port: '{{ cluster_port }}'
+      protocol: '{{ cluster_protocol }}'
+      username: '{{ ontap_cluster_username }}'
+    status_code: [201,204]
+    headers:
+      authorization: Basic {{ auth_token_aiqum.stdout }}
+  retries: 15
   delay: 60
   register: result
   until: result is succeeded
   tags:
     - deploy_ova_dhcp_ip
-    - get_vm_properties
-    - guest_facts
+    - aiqum_cluster
