@@ -29,6 +29,12 @@
   tags:
     - deploy_ova_static_ip
 
+- name: Pausing for Network and services to start
+  pause:
+    minutes: 10
+  tags:
+    - deploy_ova_static_ip
+
 - name: Encode username and password and create variable to pass to the add ONTAP cluster task
   no_log: false
   shell: "echo  {{ (aiqumuser + ':' + aiqumpassword) | b64encode }}"

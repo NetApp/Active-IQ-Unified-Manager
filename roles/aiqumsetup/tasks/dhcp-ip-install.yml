@@ -24,12 +24,11 @@
   tags:
     - deploy_ova_dhcp_ip
 
-- name: Pausing for Network to start
+- name: Pausing for Network and services to start
   pause:
     minutes: 10
   tags:
-    - deploy_ova_static_ip
-
+    - deploy_ova_dhcp_ip
 
 - name: Get VM MAC address to gather DHCP IP in later tasks.
   no_log: true

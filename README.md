@@ -12,7 +12,7 @@ intersightclaim
 # Environment Validated
 ``` yaml
 ONTAP 9.7p1+
-AIQUM 9.8P1+
+AIQUM 9.10
 ESXi and vCenter 6.7+
 UCSM 4.1.2+
 CentOS 8
