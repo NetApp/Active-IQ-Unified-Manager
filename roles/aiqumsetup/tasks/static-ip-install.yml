@@ -1,5 +1,5 @@
 - name: Import AIQUM OVA and deploy with static IP. 
-  no_log: false
+  no_log: true
   community.vmware.vmware_deploy_ovf:
     hostname: "{{ vc_hostname }}"
     username: "{{ vc_username }}"
@@ -36,7 +36,7 @@
     - deploy_ova_static_ip
 
 - name: Encode username and password and create variable to pass to the add ONTAP cluster task
-  no_log: false
+  no_log: true
   shell: "echo  {{ (aiqumuser + ':' + aiqumpassword) | b64encode }}"
   delegate_to: localhost
   register: auth_token_aiqum
@@ -45,7 +45,7 @@
     - aiqum_cluster
 
 - name: Add an ONTAP cluster to AIQUM with API
-  no_log: false
+  no_log: true
   uri:
     url: "https://{{aiqum_ipaddress}}/api/admin/datasources/clusters"
     validate_certs: false
