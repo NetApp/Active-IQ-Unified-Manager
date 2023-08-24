@@ -68,6 +68,9 @@ pip3 install --user  PyVmomi
 echo "Installing pexpect ------>"
 pip3 install --user pexpect
 
+echo "Installing jmespath ------>"
+pip3 install --user jmespath
+
 echo "change owner and group of /etc/ansible ------>"
 sudo chown -R username.usergroup /etc/ansible/
 
@@ -83,8 +86,11 @@ sudo apt-get -y install python3-pip  >/dev/null
 echo "Installing PyVmomi ------>"
 pip3 install --user  PyVmomi
 
-echo "Installing expect ------>"
+echo "Installing pexpect ------>"
 pip3 install --user pexpect
+
+echo "Installing jmespath ------>"
+pip3 install --user jmespath
 
 echo "echo Changing owner and group of /etc/ansible ------>"
 sudo chown -R username.usergroup /etc/ansible/
@@ -162,4 +168,4 @@ Copy API Key ID and use as value for “api_key_id” in group_vars/intersight f
 Copy Secret Key and paste into a text file and use as path for “cisco_key” in group_vars/intersight file.
 
 # Author Information
-* Jason Walton (jason.walton@netapp.com)
+* Kamini Singh (kamini.singh@netapp.com)
