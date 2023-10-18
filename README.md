@@ -1,4 +1,4 @@
-# Automated AIQUM deployment, adding an ONTAP cluster to AIQUM, and claiming AIQUM into Cisco Intersight using Ansible
+### Automated AIQUM deployment, adding an ONTAP cluster to AIQUM, and claiming AIQUM into Cisco Intersight using Ansible
 
 Note: Fully automated installation of AIQUM requires a minimum version of AIQUM 9.10
 
@@ -11,7 +11,7 @@ aiqumsetup
 intersightclaim
 ```
 
-# Environment Validated
+### Environment Validated
 
 ```yaml
 ONTAP 9.7p1+
@@ -22,7 +22,7 @@ CentOS 8
 Ubuntu 20.04
 ```
 
-# Prerequisites
+### Prerequisites
 01. It is assumed that the physical rack and stack and power-on, initialization of ONTAP OS, setup of node management IPs and initial ONTAP cluster with IP is completed.
 02. It is assumed a Cisco Intersight account is setup and configured to allow devices to be added to the account. See below section for how to obtain a Cisco Intersight key and code.
 03. It is assumed the Intersight Assist virtual appliance is installed and claimed to your Intersight account 
@@ -109,7 +109,7 @@ chmod +x setup.sh
 ./setup.sh
 ```
 
-# Getting Started
+### Getting Started
 01. From the Ansible control server change directory to /etc/ansible and download a ZIP version of this repository or clone it using the below command.
 
 ```yaml
@@ -156,7 +156,7 @@ To claim an existing AIQUM instance into Intersight use -t intersight_claim
 ansible-playbook aiqum.yml -t intersight_claim
 ```
 
-# How to obtain Cisco Intersight Key and Code
+### How to obtain Cisco Intersight Key and Code
 
 Log into Cisco Intersight.\
 Click on Gear then Settings.\
@@ -167,5 +167,5 @@ Click Generate.\
 Copy API Key ID and use as value for “api_key_id” in group_vars/intersight file.\
 Copy Secret Key and paste into a text file and use as path for “cisco_key” in group_vars/intersight file.
 
-# Author Information
+### Author Information
 * Kamini Singh (kamini.singh@netapp.com)
