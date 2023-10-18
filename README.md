@@ -46,7 +46,7 @@ vi setup.sh
 ```
 
 Notes:
-Change /etc/ansible to the directory your AIQUM playbook will be kept \
+Change /etc/ansible to the directory your AIQUM playbook will be kept
 Change username.usergroup to the user and group that will be setting up the ansible playbook 
 
 8a. Paste the below content into the file ( For CentOS 8 )
