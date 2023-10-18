@@ -6,7 +6,7 @@ This repository contains Ansible roles and playbooks for end-to-end AIQUM deploy
 
 The deployment automation is based on the following roles:
 
-```yaml
+```
 aiqumsetup
 intersightclaim
 ```
