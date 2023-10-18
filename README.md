@@ -1,8 +1,8 @@
-# Automated AIQUM, adding an ONTAP cluster to AIQUM and claiming AIQUM into Cisco Intersight using Ansible
+# Automated AIQUM deployment, adding an ONTAP cluster to AIQUM, and claiming AIQUM into Cisco Intersight using Ansible
 
 Note: Fully automated installation of AIQUM requires a minimum version of AIQUM 9.10
 
-This repository contains Ansible roles and playbooks for end-to-end AIQUM deployment, adding ONTAP to AIQUM and claiming AIQUM into Cisco Intersight
+This repository contains Ansible roles and playbooks for end-to-end AIQUM deployment, adding ONTAP cluster to AIQUM, and claiming AIQUM into Cisco Intersight
 
 The deployment automation is based on the following roles:
 
