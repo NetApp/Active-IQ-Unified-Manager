@@ -14,9 +14,9 @@ intersightclaim
 ### Environment Validated
 
 ```
-ONTAP 9.7p1+
-AIQUM 9.10
-ESXi and vCenter 6.7+
+ONTAP 9.12.1 and later
+AIQUM 9.12 and 9.13
+ESXi and vCenter 7.0 and 8.0
 UCSM 4.1.2+
 CentOS 8
 Ubuntu 20.04
@@ -113,7 +113,7 @@ chmod +x setup.sh
 01. From the Ansible control server change directory to /etc/ansible and download a ZIP version of this repository or clone it using the below command.
 
 ```
-git clone https://github.com/NetApp-Automation/NetApp-AIQUM.git
+git clone https://github.com/NetApp/Active-IQ-Unified-Manager.git
 ```
 
 02. There is one variable file under the vars folder 'aiqum_main.yml ' that needs to be filled out with environment specific parameters prior to executing the playbook.
