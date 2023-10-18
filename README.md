@@ -24,11 +24,11 @@ Ubuntu 20.04
 
 ### Prerequisites
 1. It is assumed that the physical rack and stack and power-on, initialization of ONTAP OS, setup of node management IPs and initial ONTAP cluster with IP is completed.
-02. It is assumed a Cisco Intersight account is setup and configured to allow devices to be added to the account. See below section for how to obtain a Cisco Intersight key and code.
-03. It is assumed the Intersight Assist virtual appliance is installed and claimed to your Intersight account 
-04. It is assumed vCenter is in working order to deploy an OVA.
-05. The user should have an Ansible Control sever that has network reachability to the ONTAP cluster and internet access to pull this repository from GitHub. Refer to https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html for guidance on setting up and Ansible Control server.
-06. The Ansible control server should have the following collections, libraries and modules installed:
+2. It is assumed a Cisco Intersight account is setup and configured to allow devices to be added to the account. See below section for how to obtain a Cisco Intersight key and code.
+3. It is assumed the Intersight Assist virtual appliance is installed and claimed to your Intersight account 
+4. It is assumed vCenter is in working order to deploy an OVA.
+5. The user should have an Ansible Control sever that has network reachability to the ONTAP cluster and internet access to pull this repository from GitHub. Refer to https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html for guidance on setting up and Ansible Control server.
+6. The Ansible control server should have the following collections, libraries and modules installed:
 
 ```
 ansible-galaxy collection install cisco.intersight
@@ -39,13 +39,13 @@ ansible-galaxy collection install netapp.ontap
 
 ```
 
-07. Create a .sh file to install any additional libraries and modules or run the commands individually
+7. Create a .sh file to install any additional libraries and modules or run the commands individually.
 
 ```
 vi setup.sh
 ```
 
-Notes: \
+Notes:
 Change /etc/ansible to the directory your AIQUM playbook will be kept \
 Change username.usergroup to the user and group that will be setting up the ansible playbook 
 
@@ -97,32 +97,32 @@ sudo chown -R username.usergroup /etc/ansible/
 
 ```
 
-09. Make the file executable
+9. Make the file executable.
 
 ```
 chmod +x setup.sh
 ```
 
-10. Run the script
+10. Run the script.
 
 ```
 ./setup.sh
 ```
 
 ### Getting Started
-01. From the Ansible control server change directory to /etc/ansible and download a ZIP version of this repository or clone it using the below command.
+1. From the Ansible control server change directory to /etc/ansible and download a ZIP version of this repository or clone it using the below command.
 
 ```
 git clone https://github.com/NetApp/Active-IQ-Unified-Manager.git
 ```
 
-02. There is one variable file under the vars folder 'aiqum_main.yml ' that needs to be filled out with environment specific parameters prior to executing the playbook.
+2. There is one variable file under the vars folder 'aiqum_main.yml ' that needs to be filled out with environment specific parameters prior to executing the playbook.
 
 NOTE: The format of the variable file needs to be maintained as it is, any changes to the structure of the file may lead to failure in execution of the playbook.
 
 NOTE: Sample values are pre-populated against some variables in order to provide the user additional clarity on how the variable needs to be filled out. Please replace the sample values with your environment specific information
 
-03. Update the credentials for the ONTAP cluster, the AIQUM VM, Cisco Intersight and the vCenter. Appropriate files are located under group_vars folder. \
+3. Update the credentials for the ONTAP cluster, the AIQUM VM, Cisco Intersight and the vCenter. Appropriate files are located under group_vars folder. 
 Sample:
 
 ```
@@ -134,7 +134,7 @@ ontap_cluster_password: password
 ontap_cluster_address: 192.168.10.10
 ```
 
-04. Executing the Playbook A playbook by name 'aiqum.yml' is available at the root of this repository. It calls all the required roles to complete the installation of AIQUM, adding a cluster to AIQUM and claiming AIQUM into Cisco Intersight. Execute the playbook from the Ansible Control server using the following command:
+4. Executing the Playbook A playbook by name 'aiqum.yml' is available at the root of this repository. It calls all the required roles to complete the installation of AIQUM, adding a cluster to AIQUM and claiming AIQUM into Cisco Intersight. Execute the playbook from the Ansible Control server using the following command:
 
 NOTE: Add -vvv to the below command to get highest verbose output to assist in troubleshooting.
 
@@ -150,7 +150,7 @@ To install AIQUM and add an ONTAP cluster use -t aiqum_setup
 ansible-playbook aiqum.yml -t aiqum_setup
 ```
 
-To claim an existing AIQUM instance into Intersight use -t intersight_claim
+To claim an existing AIQUM instance into Cisco Intersight use -t intersight_claim
 
 ```
 ansible-playbook aiqum.yml -t intersight_claim
@@ -158,13 +158,13 @@ ansible-playbook aiqum.yml -t intersight_claim
 
 ### How to obtain Cisco Intersight Key and Code
 
-Log into Cisco Intersight.\
-Click on Gear then Settings.\
-Click on API Keys.\
-Click on Generate API KEY.\
-Enter a Description.\
-Click Generate.\
-Copy API Key ID and use as value for “api_key_id” in group_vars/intersight file.\
+Log into Cisco Intersight.
+Click on Gear then Settings.
+Click on API Keys.
+Click on Generate API KEY.
+Enter a Description.
+Click Generate.
+Copy API Key ID and use as value for “api_key_id” in group_vars/intersight file.
 Copy Secret Key and paste into a text file and use as path for “cisco_key” in group_vars/intersight file.
 
 ### Author Information
