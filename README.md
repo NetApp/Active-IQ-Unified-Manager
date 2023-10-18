@@ -23,7 +23,7 @@ Ubuntu 20.04
 ```
 
 ### Prerequisites
-01. It is assumed that the physical rack and stack and power-on, initialization of ONTAP OS, setup of node management IPs and initial ONTAP cluster with IP is completed.
+1. It is assumed that the physical rack and stack and power-on, initialization of ONTAP OS, setup of node management IPs and initial ONTAP cluster with IP is completed.
 02. It is assumed a Cisco Intersight account is setup and configured to allow devices to be added to the account. See below section for how to obtain a Cisco Intersight key and code.
 03. It is assumed the Intersight Assist virtual appliance is installed and claimed to your Intersight account 
 04. It is assumed vCenter is in working order to deploy an OVA.
