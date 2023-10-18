@@ -13,7 +13,7 @@ intersightclaim
 
 ### Environment Validated
 
-```yaml
+```
 ONTAP 9.7p1+
 AIQUM 9.10
 ESXi and vCenter 6.7+
@@ -30,7 +30,7 @@ Ubuntu 20.04
 05. The user should have an Ansible Control sever that has network reachability to the ONTAP cluster and internet access to pull this repository from GitHub. Refer to https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html for guidance on setting up and Ansible Control server.
 06. The Ansible control server should have the following collections, libraries and modules installed:
 
-```yaml
+```
 ansible-galaxy collection install cisco.intersight
 
 ansible-galaxy collection install community.vmware
@@ -41,7 +41,7 @@ ansible-galaxy collection install netapp.ontap
 
 07. Create a .sh file to install any additional libraries and modules or run the commands individually
 
-```yaml
+```
 vi setup.sh
 ```
 
@@ -51,7 +51,7 @@ Change username.usergroup to the user and group that will be setting up the ansi
 
 8a. Paste the below content into the file ( For CentOS 8 )
 
-```yaml
+```
 #!/bin/bash
 echo "Installing Python ------>"
 sudo yum -y install python3 >/dev/null
@@ -78,7 +78,7 @@ sudo chown -R username.usergroup /etc/ansible/
 
 8b. Paste the below content into the file ( For Ubuntu 20.04 )
 
-```yaml
+```
 #!/bin/bash
 echo "Installing Python3-pip ------>"
 sudo apt-get -y install python3-pip  >/dev/null
@@ -99,20 +99,20 @@ sudo chown -R username.usergroup /etc/ansible/
 
 09. Make the file executable
 
-```yaml
+```
 chmod +x setup.sh
 ```
 
 10. Run the script
 
-```yaml
+```
 ./setup.sh
 ```
 
 ### Getting Started
 01. From the Ansible control server change directory to /etc/ansible and download a ZIP version of this repository or clone it using the below command.
 
-```yaml
+```
 git clone https://github.com/NetApp-Automation/NetApp-AIQUM.git
 ```
 
@@ -125,7 +125,7 @@ NOTE: Sample values are pre-populated against some variables in order to provide
 03. Update the credentials for the ONTAP cluster, the AIQUM VM, Cisco Intersight and the vCenter. Appropriate files are located under group_vars folder. \
 Sample:
 
-```yaml
+```
 # Credentials for connecting to the ONTAP Cluster
 ontap_cluster_username: admin
 ontap_cluster_password: password
@@ -138,7 +138,7 @@ ontap_cluster_address: 192.168.10.10
 
 NOTE: Add -vvv to the below command to get highest verbose output to assist in troubleshooting.
 
-```y
+```
 ansible-playbook aiqum.yml
 ```
 
@@ -146,13 +146,13 @@ If you would like to run a part of the deployment, you may use the appropriate t
 
 To install AIQUM and add an ONTAP cluster use -t aiqum_setup
 
-```yaml
+```
 ansible-playbook aiqum.yml -t aiqum_setup
 ```
 
 To claim an existing AIQUM instance into Intersight use -t intersight_claim
 
-```yaml
+```
 ansible-playbook aiqum.yml -t intersight_claim
 ```
 
