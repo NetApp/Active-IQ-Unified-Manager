@@ -46,7 +46,7 @@ vi setup.sh
 ```
 
 Notes:
-Change /etc/ansible to the directory your AIQUM playbook will be kept
+Change /etc/ansible to the directory your AIQUM playbook will be kept \
 Change username.usergroup to the user and group that will be setting up the ansible playbook 
 
 8a. Paste the below content into the file ( For CentOS 8 )
@@ -158,14 +158,14 @@ ansible-playbook aiqum.yml -t intersight_claim
 
 ### How to obtain Cisco Intersight Key and Code
 
-Log into Cisco Intersight.
-Click on Gear then Settings.
-Click on API Keys.
-Click on Generate API KEY.
-Enter a Description.
-Click Generate.
-Copy API Key ID and use as value for “api_key_id” in group_vars/intersight file.
-Copy Secret Key and paste into a text file and use as path for “cisco_key” in group_vars/intersight file.
+Log into Cisco Intersight. \
+Click on Gear then Settings. \
+Click on API Keys. \
+Click on Generate API KEY. \
+Enter a Description. \
+Click Generate. \
+Copy API Key ID and use as value for “api_key_id” in group_vars/intersight file. \
+Copy Secret Key and paste into a text file and use as path for “cisco_key” in group_vars/intersight file. \
 
 ### Author Information
 * Kamini Singh (kamini.singh@netapp.com)
