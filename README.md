@@ -45,7 +45,7 @@ ansible-galaxy collection install netapp.ontap
 vi setup.sh
 ```
 
-Notes:
+Notes: \
 Change /etc/ansible to the directory your AIQUM playbook will be kept \
 Change username.usergroup to the user and group that will be setting up the ansible playbook 
 
@@ -134,7 +134,8 @@ ontap_cluster_password: password
 ontap_cluster_address: 192.168.10.10
 ```
 
-4. Executing the Playbook A playbook by name 'aiqum.yml' is available at the root of this repository. It calls all the required roles to complete the installation of AIQUM, adding a cluster to AIQUM and claiming AIQUM into Cisco Intersight. Execute the playbook from the Ansible Control server using the following command:
+4. Executing the Playbook
+A playbook by name 'aiqum.yml' is available at the root of this repository. It calls all the required roles to complete the installation of AIQUM, adding a cluster to AIQUM and claiming AIQUM into Cisco Intersight. Execute the playbook from the Ansible Control server using the following command:
 
 NOTE: Add -vvv to the below command to get highest verbose output to assist in troubleshooting.
 
