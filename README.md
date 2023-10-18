@@ -170,4 +170,4 @@ Copy API Key ID and use as value for “api_key_id” in group_vars/intersight f
 Copy Secret Key and paste into a text file and use as path for “cisco_key” in group_vars/intersight file. \
 
 ### Author Information
-- [Kamini Singh](mailto:kamini.singh@netapp.com) - NetApp FlexPod Solution Team
+- [Kamini Singh](mailto: KAMINI.SINGH@netapp.com) - NetApp FlexPod Solutions Team
